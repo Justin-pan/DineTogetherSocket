@@ -1,7 +1,7 @@
 var express = require('express');
 var http = require('http');
 var app = express();
-var server = http.createServer(app).listen(3000);
+var server = http.createServer(app).listen(process.env.PORT || 3000);
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
@@ -20,4 +20,4 @@ io.on('connection', function(socket){
     socket.broadcast.to(roomname).emit('message', roomname, message, email, name);
   });
 });
-console.log("server listening on 3000")
+console.log("server listening on" + process.env.PORT)

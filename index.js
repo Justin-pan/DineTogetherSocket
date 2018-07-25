@@ -19,5 +19,8 @@ io.on('connection', function(socket){
     console.log("message sent to" + roomname)
     socket.broadcast.to(roomname).emit('message', roomname, message, email, name);
   });
+  socket.on('disconnect', function(){
+    console.log(socket.userName + " has disconnected");
+  });
 });
 console.log("server listening on" + process.env.PORT)

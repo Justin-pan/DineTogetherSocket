@@ -8,19 +8,22 @@ io.on('connection', function(socket){
   console.log("new connection");
   socket.on('signIn', function(name){
     socket.userName = name;
+    console.log(socket.userName + " has signed in");
+  });
+  socket.on("reconnect", function(name){
+    socket.userName = name;
+    console.log(socket.userName + " has reconnected")
   });
   socket.on('joinRoom', function(roomname){
     console.log("joined" + roomname);
-    var message = socket.userName + "has joined";
     socket.join(roomname);
-    io.in(roomname).emit('joinmessage', message)
   });
-  socket.on('message', function(roomname, message, email, name){
+  socket.on('message', function(roomname, message, email, name, date, messageID){
     console.log("message sent to" + roomname)
-    socket.broadcast.to(roomname).emit('message', roomname, message, email, name);
+    socket.broadcast.to(roomname).emit('message', roomname, message, email, name, date, messageID);
   });
   socket.on('disconnect', function(){
     console.log(socket.userName + " has disconnected");
   });
 });
-console.log("server listening on" + process.env.PORT)
+console.log("server listening on " + process.env.PORT)
